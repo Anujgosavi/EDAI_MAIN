@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Calendar, Clock, Video } from "lucide-react"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Calendar, Clock, Video } from "lucide-react";
 
 // Sample appointment data
 const initialAppointments = [
@@ -33,37 +33,42 @@ const initialAppointments = [
     type: "Initial Consultation",
     status: "Completed",
   },
-]
+];
 
 export default function AppointmentsPage() {
-  const [appointments, setAppointments] = useState([])
-  const [activeTab, setActiveTab] = useState("upcoming")
+  const [appointments, setAppointments] = useState([]);
+  const [activeTab, setActiveTab] = useState("upcoming");
 
   // Load appointments from localStorage or use sample data
   useEffect(() => {
-    const savedAppointments = localStorage.getItem("appointments")
+    const savedAppointments = localStorage.getItem("appointments");
     if (savedAppointments) {
-      setAppointments(JSON.parse(savedAppointments))
+      setAppointments(JSON.parse(savedAppointments));
     } else {
-      setAppointments(initialAppointments)
-      localStorage.setItem("appointments", JSON.stringify(initialAppointments))
+      setAppointments(initialAppointments);
+      localStorage.setItem("appointments", JSON.stringify(initialAppointments));
     }
-  }, [])
+  }, []);
 
   // Filter appointments based on active tab
   const filteredAppointments = appointments.filter(
     (appointment) =>
       (activeTab === "upcoming" && appointment.status === "Upcoming") ||
-      (activeTab === "completed" && appointment.status === "Completed"),
-  )
+      (activeTab === "completed" && appointment.status === "Completed")
+  );
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <header className="bg-white shadow-sm py-4">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-emerald-600">My Appointments</h1>
-            <Link href="/" className="text-emerald-600 hover:text-emerald-700 font-medium">
+            <h1 className="text-2xl font-bold text-emerald-600">
+              My Appointments
+            </h1>
+            <Link
+              href="/"
+              className="text-emerald-600 hover:text-emerald-700 font-medium"
+            >
               Back to Home
             </Link>
           </div>
@@ -98,7 +103,9 @@ export default function AppointmentsPage() {
         {/* Appointments list */}
         {filteredAppointments.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No {activeTab} appointments found.</p>
+            <p className="text-gray-500 text-lg">
+              No {activeTab} appointments found.
+            </p>
             {activeTab === "upcoming" && (
               <Link
                 href="/therapists"
@@ -111,16 +118,23 @@ export default function AppointmentsPage() {
         ) : (
           <div className="grid gap-6">
             {filteredAppointments.map((appointment) => (
-              <div key={appointment.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div
+                key={appointment.id}
+                className="bg-white rounded-lg shadow-md overflow-hidden"
+              >
                 <div className="p-6">
                   <div className="flex flex-col md:flex-row md:justify-between md:items-center">
                     <div>
-                      <h2 className="text-xl font-bold mb-1">{appointment.therapist}</h2>
-                      <p className="text-emerald-500 mb-4">{appointment.specialization}</p>
+                      <h2 className="text-xl font-bold mb-1">
+                        {appointment.therapist}
+                      </h2>
+                      <p className="text-emerald-500 mb-4">
+                        {appointment.specialization}
+                      </p>
                     </div>
                     {appointment.status === "Upcoming" && (
                       <Link
-                        href="/video-call"
+                        href="/therapists/video-call"
                         className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-md font-medium flex items-center justify-center md:justify-start"
                       >
                         <Video className="h-4 w-4 mr-2" />
@@ -155,8 +169,12 @@ export default function AppointmentsPage() {
 
                   {appointment.status === "Upcoming" && (
                     <div className="mt-6 flex flex-wrap gap-3">
-                      <button className="text-emerald-600 hover:text-emerald-700 font-medium">Reschedule</button>
-                      <button className="text-red-600 hover:text-red-700 font-medium">Cancel Appointment</button>
+                      <button className="text-emerald-600 hover:text-emerald-700 font-medium">
+                        Reschedule
+                      </button>
+                      <button className="text-red-600 hover:text-red-700 font-medium">
+                        Cancel Appointment
+                      </button>
                     </div>
                   )}
                 </div>
@@ -166,5 +184,5 @@ export default function AppointmentsPage() {
         )}
       </main>
     </div>
-  )
+  );
 }
